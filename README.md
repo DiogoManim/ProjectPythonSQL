@@ -1,2 +1,2 @@
 # ProjectPythonSQL
-uni project
+uni project for databases class
