@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Routes search</h1>
+<p><b>Search expression:</b>"{{ search.expr }}"</p>
+<p>
+<ul>
+  {% for route in routes %}
+  <li><a href="/routes/{{ route.nome }}">{{ route.nome }}</a></li>
+  {% endfor %}
+</ul>
+</p>
+{% endblock %}
