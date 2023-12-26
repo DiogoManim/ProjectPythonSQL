@@ -57,18 +57,24 @@ database. The application is built using
 </form>
 </p>
   
-<p>Search by color:
-<form name="msearch" action="javascript:window.open('/routes-search/'+document.forms['msearch'].elements['expr'].value,'_self')">
+<p>Search Stops by Zone:
+  <form name="msearch" action="{{ url_for('search_stops') }}" method="post">
     <select name="id">
-    <option value="A">Blue</option>
-    <option value="B">Red</option>
-    <option value="Bx">Red</option>
-    <option value="C">Green</option>
-    <option value="D">Yellow</option>
-    <option value="E">Purple</option>
-    <option value="F">Orange</option>
-  <input type="submit" value="search"/>
-</form>
+      <option value="PTR1">Porto 1</option>
+      <option value="PTR2">Porto 2</option>
+      <option value="PTR3">Porto 3</option>
+      <option value="MAI1">Maia 1</option>
+      <option value="MAI2">Maia 2</option>
+      <option value="MAI4">Maia 4</option>
+      <option value="VCD3">Vila do Conde 3</option>
+      <option value="VCD8">Vila do Conde 8</option>
+      <option value="MTS1">Matosinhos 1</option>
+      <option value="VNG1">Vila Nova de Gaia 1</option>
+      <option value="GDM1">Gondomar</option>
+      <option value="PV_VC">Povoa de Varzim</option>
+    </select>
+    <input type="submit" value="Search"/>
+  </form>
 </p>
 
 <h3>Stops</h3>
