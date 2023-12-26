@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>MoviewStream database</h1>
+<h1>Metro do Porto database</h1>
 
 <h2>About</h2>
-<p>This web application illustrates the use of the MovieStream
+<p>This web application illustrates the use of the Metro do Porto
 database. The application is built using 
 <a href="https://docs.python.org/3/library/sqlite3.html">sqlite3</a>,
 <a href="https://flask.palletsprojects.com">Flask</a>, and
@@ -17,51 +17,56 @@ database. The application is built using
   <th>Count</th>
 </tr>
 <tr>
-  <td>Movies</td>
-  <td>{{ stats.n_movies }}</td>
+  <td>Routes</td>
+  <td>{{ stats.linhaID}}</td>
 </tr>
 <tr>
-  <td>Actors in movies</td>
-  <td>{{ stats.n_actors }}</td>
+  <td>Possible Trips</td>
+  <td>{{ stats.viagemID }}</td>
 </tr>
+
 <tr>
-  <td>Movie genres</td>
-  <td>{{ stats.n_genres }}</td>
+  <td>Zones</td>
+  <td>{{ stats.zonaIdOrigem }}</td>
 </tr>
+
 <tr>
-  <td>Streams</td>
-  <td>{{ stats.n_streams }}</td>
-</tr>
-<tr>
-  <td>Customers</td>
-  <td>{{ stats.n_customers }}</td>
-</tr>
-<tr>
-  <td>Countries</td>
-  <td>{{ stats.n_countries }}</td>
-</tr>
-<tr>
-  <td>Regions</td>
-  <td>{{ stats.n_regions }}</td>
+  <td>Stops</td>
+  <td>{{ stats.idParagem }}</td>
 </tr>
 </table>
 
 
 <h2>Sample functionality</h2>
 
-<h3>Movies</h3>
+<h3>Routes</h3>
 <p>
-   <a href="/movies">List all</a>
+   <a href="/routes">List all</a>
 </p>
-<p>Get movie info:
+<p>Get Route info:
 <form name="mid" action="javascript:window.open('/movies/'+document.forms['mid'].elements['id'].value,'_self')">
-   Movie Id:<input value="123" name="id" type="number" min="1"/><input type="submit" value="get"/>
+   Nome:<select name="id">
+    <option value="A">A</option>
+    <option value="B">B</option>
+    <option value="Bx">Bx</option>
+    <option value="C">C</option>
+    <option value="D">D</option>
+    <option value="E">E</option>
+    <option value="F">F</option>
+ </select><input type="submit" value="get"/>
 </form>
 </p>
   
-<p>Search by title:
-<form name="msearch" action="javascript:window.open('/movies/search/'+document.forms['msearch'].elements['expr'].value,'_self')">
-  <input name="expr" id="expr" value="Spider" required/>
+<p>Search by color:
+<form name="msearch" action="javascript:window.open('/movie/search/'+document.forms['msearch'].elements['expr'].value,'_self')">
+    <select name="id">
+    <option value="A">Blue</option>
+    <option value="B">Red</option>
+    <option value="Bx">Red</option>
+    <option value="C">Green</option>
+    <option value="D">Yellow</option>
+    <option value="E">Purple</option>
+    <option value="F">Orange</option>
   <input type="submit" value="search"/>
 </form>
 </p>
