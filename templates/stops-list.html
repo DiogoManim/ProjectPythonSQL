@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Stops</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Stop Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for stop in stops %}
+      <tr>
+        <td>
+          <a href="/stops/{{ stop.Name }}">{{ stop.Name }}</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

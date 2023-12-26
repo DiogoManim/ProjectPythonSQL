@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Routes</h1>
+<table>
+  <tr>
+    <th>
+      <b>Name</b>
+    </th>
+    <th>
+      <b>Color</b>
+    </th>
+  </tr>
+
+  {% for route in routes %}
+  <tr>
+    <td>
+      <a href="/routes/{{ route.Name }}">{{ route.Name }}</a>
+    </td>
+    <td>
+      {{ route.Color }}
+    </td>    
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

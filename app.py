@@ -32,217 +32,113 @@ def list_routes():
       FROM Linhas
       ORDER BY Name
       ''').fetchall()
+    if not routes:
+        abort(404)  # or handle it in another way, e.g., render an error template
+
     return render_template('routes-list.html', routes=routes)
 
 @APP.route('/routes/A')
-def list_routes():
+def route_A():
     routes = db.execute(
       '''
       SELECT nome as Name, cor as Color
       FROM Linhas
-      ORDER BY Name
+      WHERE nome = 'A'
       ''').fetchall()
+    if not routes:
+        abort(404)  # or handle it in another way, e.g., render an error template
+
     return render_template('routes-list.html', routes=routes)
 
 @APP.route('/routes/B')
-def list_routes():
+def route_B():
     routes = db.execute(
       '''
       SELECT nome as Name, cor as Color
       FROM Linhas
-      ORDER BY Name
+      WHERE nome = 'B'
+
       ''').fetchall()
+    if not routes:
+        abort(404)  # or handle it in another way, e.g., render an error template
+
     return render_template('routes-list.html', routes=routes)   
 
-
-
-@APP.route('/movies/<int:id>/')
-def get_movie(id):
-  movie = db.execute(
+@APP.route('/routes/Bx')
+def route_Bx():
+    routes = db.execute(
       '''
-      SELECT MovieId, Title, Year, Duration 
-      FROM MOVIE 
-      WHERE movieId = ?
-      ''', [id]).fetchone()
+      SELECT nome as Name, cor as Color
+      FROM Linhas
+      WHERE nome = 'Bx'
 
-  if movie is None:
-     abort(404, 'Movie id {} does not exist.'.format(id))
+      ''').fetchall()
+    if not routes:
+        abort(404)  # or handle it in another way, e.g., render an error template
 
-  genres = db.execute(
+    return render_template('routes-list.html', routes=routes)
+
+@APP.route('/routes/C')
+def route_C():
+    routes = db.execute(
       '''
-      SELECT GenreId, Label 
-      FROM MOVIE_GENRE NATURAL JOIN GENRE 
-      WHERE movieId = ? 
-      ORDER BY Label
-      ''', [id]).fetchall()
+      SELECT nome as Name, cor as Color
+      FROM Linhas
+      WHERE nome = 'C'
 
-  actors = db.execute(
+      ''').fetchall()
+    if not routes:
+        abort(404)  # or handle it in another way, e.g., render an error template
+
+    return render_template('routes-list.html', routes=routes)
+
+@APP.route('/routes/D')
+def route_D():
+    routes = db.execute(
       '''
-      SELECT ActorId, Name
-      FROM MOVIE_ACTOR NATURAL JOIN ACTOR
-      WHERE MovieId = ?
-      ORDER BY Name
-      ''', [id]).fetchall()
+      SELECT nome as Name, cor as Color
+      FROM Linhas
+      WHERE nome = 'D'
+      ''').fetchall()
+    if not routes:
+        abort(404)  # or handle it in another way, e.g., render an error template
 
-  streams = db.execute(
-      ''' 
-      SELECT StreamId, StreamDate
-      FROM STREAM
-      WHERE MovieId = ?
-      ORDER BY StreamDate Desc
-      ''', [id]).fetchall();
-  return render_template('movie.html', 
-           movie=movie, genres=genres, actors=actors, streams=streams)
+    return render_template('routes-list.html', routes=routes)
 
-@APP.route('/movies/search/<expr>/')
-def search_movie(expr):
-  search = { 'expr': expr }
-  expr = '%' + expr + '%'
-  movies = db.execute(
-      ''' 
-      SELECT MovieId, Title
-      FROM MOVIE 
-      WHERE Title LIKE ?
-      ''', [expr]).fetchall()
-  return render_template('movie-search.html',
-           search=search,movies=movies)
-
-# Actors
-@APP.route('/actors/')
-def list_actors():
-    actors = db.execute('''
-      SELECT ActorId, Name 
-      FROM Actor
-      ORDER BY Name
-    ''').fetchall()
-    return render_template('actor-list.html', actors=actors)
-
-
-@APP.route('/actors/<int:id>/')
-def view_movies_by_actor(id):
-  actor = db.execute(
-    '''
-    SELECT ActorId, Name
-    FROM ACTOR 
-    WHERE ActorId = ?
-    ''', [id]).fetchone()
-
-  if actor is None:
-     abort(404, 'Actor id {} does not exist.'.format(id))
-
-  movies = db.execute(
-    '''
-    SELECT MovieId, Title
-    FROM MOVIE NATURAL JOIN MOVIE_ACTOR
-    WHERE ActorId = ?
-    ORDER BY Title
-    ''', [id]).fetchall()
-
-  return render_template('actor.html', 
-           actor=actor, movies=movies)
- 
-@APP.route('/actors/search/<expr>/')
-def search_actor(expr):
-  search = { 'expr': expr }
-  # SQL INJECTION POSSIBLE! - avoid this!
-  actors = db.execute(
-      ' SELECT ActorId, Name'
-      ' FROM ACTOR '
-      ' WHERE Name LIKE \'%' + expr + '%\''
-    ).fetchall()
-
-  return render_template('actor-search.html', 
-           search=search,actors=actors)
-
-# Genres
-@APP.route('/genres/')
-def list_genres():
-    genres = db.execute('''
-      SELECT GenreId, Label 
-      FROM GENRE
-      ORDER BY Label
-    ''').fetchall()
-    return render_template('genre-list.html', genres=genres)
-
-@APP.route('/genres/<int:id>/')
-def view_movies_by_genre(id):
-  genre = db.execute(
-    '''
-    SELECT GenreId, Label
-    FROM GENRE 
-    WHERE GenreId = ?
-    ''', [id]).fetchone()
-
-  if genre is None:
-     abort(404, 'Genre id {} does not exist.'.format(id))
-
-  movies = db.execute(
-    '''
-    SELECT MovieId, Title
-    FROM MOVIE NATURAL JOIN MOVIE_GENRE
-    WHERE GenreId = ?
-    ORDER BY Title
-    ''', [id]).fetchall()
-
-  return render_template('genre.html', 
-           genre=genre, movies=movies)
-
-# Streams
-@APP.route('/streams/<int:id>/')
-def get_stream(id):
-  stream = db.execute(
+@APP.route('/routes/E')
+def route_E():
+    routes = db.execute(
       '''
-      SELECT StreamId, StreamDate, Charge, MovieId, Title, CustomerId, Name
-      FROM STREAM NATURAL JOIN MOVIE NATURAL JOIN CUSTOMER 
-      WHERE StreamId = ?
-      ''', [id]).fetchone()
+      SELECT nome as Name, cor as Color
+      FROM Linhas
+      WHERE nome = 'E'
+      ''').fetchall()
+    if not routes:
+        abort(404)  # or handle it in another way, e.g., render an error template
 
-  if stream is None:
-     abort(404, 'Stream id {} does not exist.'.format(id))
+    return render_template('routes-list.html', routes=routes)
 
-  return render_template('stream.html', stream=stream)
-
-
-# Staff
-@APP.route('/staff/')
-def list_staff():
-    staff = db.execute('''
-      SELECT S1.StaffId AS StaffId, 
-             S1.Name AS Name,
-             S1.Job AS Job, 
-             S1.Supervisor AS Supervisor,
-             S2.Name AS SupervisorName
-      FROM STAFF S1 LEFT JOIN STAFF S2 ON(S1.Supervisor = S2.StaffId)
-      ORDER BY S1.Name
-    ''').fetchall()
-    return render_template('staff-list.html', staff=staff)
-
-@APP.route('/staff/<int:id>/')
-def show_staff(id):
-  staff = db.execute(
-    '''
-    SELECT StaffId, Name, Supervisor, Job
-    FROM STAFF
-    WHERE staffId = ?
-    ''', [id]).fetchone()
-
-  if staff is None:
-     abort(404, 'Staff id {} does not exist.'.format(id))
-  superv={}
-  if not (staff['Supervisor'] is None):
-    superv = db.execute(
+@APP.route('/routes/F')
+def route_F():
+    routes = db.execute(
       '''
-      SELECT Name
-      FROM staff
-      WHERE staffId = ?
-      ''', [staff['Supervisor']]).fetchone()
-  supervisees = []
-  supervisees = db.execute(
-    '''
-      SELECT StaffId, Name from staff
-      where Supervisor = ?
-      ORDER BY Name
-    ''',[id]).fetchall()
+      SELECT nome as Name, cor as Color
+      FROM Linhas
+      WHERE nome = 'F'
+      ''').fetchall()
+    if not routes:
+        abort(404)  # or handle it in another way, e.g., render an error template
 
-  return render_template('staff.html', 
-           staff=staff, superv=superv, supervisees=supervisees)
+    return render_template('routes-list.html', routes=routes)
+
+@APP.route('/stops/')
+def paragens():
+    stops = db.execute(
+        '''
+        Select nomeDaParagem as Name
+        From Paragens
+        Order by Name
+        ''').fetchall()
+    if not stops:
+        abort(404)  # or handle it in another way, e.g., render an error template
+    return render_template('stops-list.html', stops=stops)

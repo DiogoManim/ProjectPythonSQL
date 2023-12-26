@@ -41,10 +41,10 @@ database. The application is built using
 
 <h3>Routes</h3>
 <p>
-   <a href="/routes">List all</a>
+   <a href="/routes/">List all</a>
 </p>
 <p>Get Route info:
-<form name="mid" action="javascript:window.open('/movies/'+document.forms['mid'].elements['id'].value,'_self')">
+<form name="mid" action="javascript:window.open('/routes/'+document.forms['mid'].elements['id'].value,'_self')">
    Nome:<select name="id">
     <option value="A">A</option>
     <option value="B">B</option>
@@ -58,7 +58,7 @@ database. The application is built using
 </p>
   
 <p>Search by color:
-<form name="msearch" action="javascript:window.open('/movie/search/'+document.forms['msearch'].elements['expr'].value,'_self')">
+<form name="msearch" action="javascript:window.open('/routes-search/'+document.forms['msearch'].elements['expr'].value,'_self')">
     <select name="id">
     <option value="A">Blue</option>
     <option value="B">Red</option>
@@ -71,13 +71,13 @@ database. The application is built using
 </form>
 </p>
 
-<h3>Actors</h3>
+<h3>Stops</h3>
 <p>
-   <a href="/actors">List all</a>
+   <a href="/stops/">List all</a>
 </p>
-<p>Get actor info:
-<form name="aid" action="javascript:window.open('/actors/'+document.forms['aid'].elements['id'].value,'_self')">
-   Actor Id:<input value="123" name="id" type="number" min="1"/><input type="submit" value="get"/>
+<p>Get stop info:
+<form name="aid" action="javascript:window.open('/stops/'+document.forms['aid'].elements['id'].value,'_self')">
+  Stop Id:<input value="123" name="id" type="number" min="1"/><input type="submit" value="get"/>
 </form>
 </p>
   
