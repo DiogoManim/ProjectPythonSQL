@@ -20,7 +20,9 @@ def index():
     JOIN 
       (SELECT COUNT(*) idParagem FROM Paragens)
     ''').fetchone()
+
     logging.info(stats)
+
     return render_template('index.html',stats=stats)
 
 # Routes
@@ -32,6 +34,7 @@ def list_routes():
       FROM Linhas
       ORDER BY Name
       ''').fetchall()
+    
     if not routes:
         abort(404)  # or handle it in another way, e.g., render an error template
 
@@ -41,33 +44,29 @@ def list_routes():
 
 @APP.route('/routes/<nome>')
 def route(nome):
-    count= '''SELECT
-    COUNT (*) contador 
-    FROM
-        Paragens
-    JOIN
-        Horarios ON idParagem = paragemID
-    WHERE
-        Replace(linhaID, "Bexp", "Bx") = ?'''
-    
-    query = '''SELECT nome as Name , cor as Color
-                FROM Linhas
-                Where nome = ?
-                '''
-    paragens = '''
-    SELECT
-    nomeDaParagem as Name
-    FROM
-        Paragens
-    JOIN
-        Horarios ON idParagem = paragemID
-    WHERE
-        Replace(linhaID, "Bexp", "Bx") = ?
-    
+    count= '''
+    SELECT COUNT (*) contador 
+    FROM Paragens
+    JOIN Horarios ON idParagem = paragemID
+    WHERE Replace(linhaID, "Bexp", "Bx") = ?
     '''
+    
+    query = '''
+    SELECT nome as Name , cor as Color
+    FROM Linhas
+    Where nome = ?
+    '''
+    paragens = '''
+    SELECT nomeDaParagem as Name
+    FROM Paragens
+    JOIN Horarios ON idParagem = paragemID
+    WHERE Replace(linhaID, "Bexp", "Bx") = ?
+    '''
+
     routes = db.execute(query,(nome,)).fetchall()
     stations = db.execute(paragens,(nome,)).fetchall()
     contador = db.execute(count, (nome,)).fetchall()
+
     if not routes:
         abort(404)  # or handle it in another way, e.g., render an error template
 
@@ -80,26 +79,26 @@ def route(nome):
 def color_search(color):
     # Use a parameterized query to avoid SQL injection
     query = '''
-        SELECT nome as Name, cor as Color
-        FROM Linhas
-        WHERE cor = ?
+    SELECT nome as Name, cor as Color
+    FROM Linhas
+    WHERE cor = ?
     '''
 
     paragens = '''
-        select nomeDaParagem as Name
-        from Paragens 
-        join Horarios on idParagem = paragemID
-        where Horarios.linhaID = 
-        (Select linhaID from Linhas where cor = ?);
+    SELECT nomeDaParagem as Name
+    FROM Paragens 
+    JOIN Horarios on idParagem = paragemID
+    WHERE Horarios.linhaID = 
+    (SELECT linhaID FROM Linhas WHERE cor = ?);
                 
     '''
     count ='''
-        select Count(*) contador 
-        from Paragens 
-        join Horarios on idParagem = paragemID
-        where Horarios.linhaID = 
-        (Select linhaID from Linhas where cor = ?);
-        '''
+    SELECT Count(*) contador 
+    FROM Paragens 
+    JOIN Horarios on idParagem = paragemID
+    WHERE Horarios.linhaID = 
+    (SELECT linhaID FROM Linhas WHERE cor = ?);
+    '''
     
     routes = db.execute(query, (color,)).fetchall()
     stations = db.execute(paragens,(color,)).fetchall()
@@ -124,27 +123,23 @@ def list_stops():
 
 @APP.route('/stops/<ID>/')
 def stop(ID):
-    station = '''SELECT
-    nomeDaParagem AS Name,
-    zonaIdOrigem AS Zone,
-    idParagem AS ID
+    station = '''
+    SELECT nomeDaParagem AS Name, zonaIdOrigem AS Zone, idParagem AS ID
     FROM Paragens
-    WHERE ID = ?'''
+    WHERE ID = ?
+    '''
     
     query = '''
-    SELECT
-    REPLACE(linhaID, 'Bexp', 'Bx') AS Route
-FROM
-    Horarios
-JOIN
-    Paragens ON idParagem = paragemID
-WHERE
-    idParagem = ?
-ORDER BY Route;
-
+    SELECT REPLACE(linhaID, 'Bexp', 'Bx') AS Route
+    FROM Horarios
+    JOIN Paragens ON idParagem = paragemID
+    WHERE idParagem = ?
+    ORDER BY Route;
     '''
+
     paragens = db.execute(query, (ID,)).fetchall()
     stations = db.execute(station, (ID,)).fetchall()
+
     if not paragens:
         abort(404)  # or handle it in another way, e.g., render an error template
 
@@ -153,27 +148,23 @@ ORDER BY Route;
 
 @APP.route('/stops_by_name/<Name>/')
 def stop_search_By_Name(Name):
-    station = '''SELECT
-    nomeDaParagem AS Name,
-    zonaIdOrigem AS Zone,
-    idParagem AS ID
+    station = '''
+    SELECT nomeDaParagem AS Name, zonaIdOrigem AS Zone, idParagem AS ID
     FROM Paragens
-    WHERE Name = ?'''
+    WHERE Name = ?
+    '''
     
     query = '''
-    SELECT
-    REPLACE(linhaID, 'Bexp', 'Bx') AS Route
-FROM
-    Horarios
-JOIN
-    Paragens ON idParagem = paragemID
-WHERE
-    nomeDaParagem = ?
-ORDER BY Route;
-
+    SELECT REPLACE(linhaID, 'Bexp', 'Bx') AS Route
+    FROM Horarios
+    JOIN Paragens ON idParagem = paragemID
+    WHERE nomeDaParagem = ?
+    ORDER BY Route;
     '''
+
     paragens = db.execute(query, (Name,)).fetchall()
     stations = db.execute(station, (Name,)).fetchall()
+    
     if not paragens:
         abort(404)  # or handle it in another way, e.g., render an error template
 
@@ -189,26 +180,32 @@ def list_ticket_prices():
     GROUP BY Ticket, Price
     HAVING COUNT(*) > 1
     ''').fetchall()
+
     if not tickets:
         abort(404)
+
     return render_template('tickets-price-list.html', tickets=tickets)
 
 @APP.route('/tickets/<zone>/')
 def search_by_Zone(zone):
     preco = '''
-               SELECT DISTINCT preco as Price , tituloID as Ticket
-               FROM Titulos
-               WHERE tituloID = ?
-            '''
+    SELECT DISTINCT preco as Price , tituloID as Ticket
+    FROM Titulos
+    WHERE tituloID = ?
+    '''
+
     query =  '''
-            Select  tituloID as Ticket,  preco as Price, zonaIdOrigem , zonaIdDestino
-            FROM Titulos
-            Where Ticket = ?
-        '''
+    SELECT  tituloID as Ticket,  preco as Price, zonaIdOrigem , zonaIdDestino
+    FROM Titulos
+    WHERE Ticket = ?
+    '''
+    
     zonas = db.execute(query, (zone,)).fetchall()
     precos = db.execute(preco, (zone,)).fetchall()
+
     if not (zonas and precos) :
         abort(404)
+    
     return render_template('tickets-search.html', precos=precos, zonas=zonas)
 
 
@@ -219,30 +216,32 @@ def schedule():
     from Viagens
     order by Route
     '''
+
     viagens = db.execute(query).fetchall()
 
     if not (viagens) :
         abort(404)
+
     return render_template('schedule.html', viagens=viagens)
 
 @APP.route('/schedule-search/<Route>')
 def schedule_search(Route):
-    route_query= '''SELECT DISTINCT REPLACE(linhaID, 'Bexp', 'Bx') AS route
-                    FROM Viagens
-                    WHERE REPLACE(linhaID, 'Bexp', 'Bx') = ?
-                '''
+    route_query= '''
+    SELECT DISTINCT REPLACE(linhaID, 'Bexp', 'Bx') AS route
+    FROM Viagens
+    WHERE REPLACE(linhaID, 'Bexp', 'Bx') = ?
+    '''
+
     query = '''
-            select horaDePartida as Departures
-            from Viagens
-            where replace(linhaID, "Bexp", "Bx") = ?
-            
-            '''
+    SELECT horaDePartida as Departures
+    FROM Viagens
+    WHERE replace(linhaID, "Bexp", "Bx") = ?
+    '''
+
     routes= db.execute(route_query, (Route,)).fetchall()
     horas = db.execute(query, (Route,)).fetchall()
+
     if not (horas) :
         abort(404)
+
     return render_template('schedule-search.html', routes=routes, horas=horas)
-
-
-
-
