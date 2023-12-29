@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Tickets Price</h1>
+<table>
+    <tr>
+        <th>
+            <b>Ticket</b>
+        </th>
+        
+        <th>
+            <b>Price(€)</b>
+        </th>
+    </tr>
+    {% for ticket in tickets %}
+    <tr>
+        <td>
+            <a href="/tickets/{{ ticket.Ticket }}">{{ ticket.Ticket }}</a>
+        </td>
+      
+        <td>
+            {{ ticket.Price }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

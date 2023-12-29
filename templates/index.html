@@ -57,6 +57,7 @@ database. The application is built using
 </form>
 </p>
   
+<<<<<<< Updated upstream
 <p>Search Stops by Zone:
   <form name="msearch" action="{{ url_for('search_stops') }}" method="post">
     <select name="id">
@@ -75,7 +76,33 @@ database. The application is built using
     </select>
     <input type="submit" value="Search"/>
   </form>
+=======
+<p>
+  Search by color:
+  <form id="csearch" onsubmit="openSearchResultsWindow(); return false;">
+    <label for="color">Select Color:</label>
+    <select name="expr" id="color">
+      <option value="Blue">Blue</option>
+      <option value="Red">Red</option>
+      <option value="Green">Green</option>
+      <option value="Yellow">Yellow</option>
+      <option value="Purle">Purple</option>
+      <option value="Orange">Orange</option>
+    </select>
+    <input type="submit" value="Search" />
+  </form>
+
+  <script>
+    function openSearchResultsWindow() {
+      var selectedColor = document.getElementById('color').value;
+      window.open('/routes-search/' + selectedColor, '_blank');
+    }
+  </script>
+>>>>>>> Stashed changes
 </p>
+
+
+
 
 <h3>Stops</h3>
 <p>
@@ -83,30 +110,55 @@ database. The application is built using
 </p>
 <p>Get stop info:
 <form name="aid" action="javascript:window.open('/stops/'+document.forms['aid'].elements['id'].value,'_self')">
-  Stop Id:<input value="123" name="id" type="number" min="1"/><input type="submit" value="get"/>
+  Stop Id:<input value="5697" name="id" type="number" min="5697" max="5792"/><input type="submit" value="get"/>
 </form>
 </p>
   
-<p>Search by name (prone to <a href="https://en.wikipedia.org/wiki/SQL_injection">SQL injection</a>!)
-  <form name="asearch" action="javascript:window.open('/actors/search/'+document.forms['asearch'].elements['expr'].value,'_self')">
-    <input name="expr" id="expr" value="Tom" required/>
-    <input type="submit" value="search"/>
+<p>Search by name:
+  <form id="asearch" onsubmit="searchStop(); return false;">
+    <input name="expr" id="expr" placeholder="Enter stop name" required/>
+    <input type="submit" value="Search"/>
   </form>
 </p>
 
-<h3>Genres</h3>
+<script>
+  function searchStop() {
+    var stopName = encodeURIComponent(document.getElementById('expr').value);
+    window.open('/stops_by_name/' + stopName, '_blank');
+  }
+</script>
+
+
+<h3>Tickets</h3>
 <p>
-   <a href="/genres">List all</a>
+   <a href="/tickets">List all</a>
 </p>
 
-<p>Get genre info:
-<form name="gid" action="javascript:window.open('/genres/'+document.forms['gid'].elements['id'].value,'_self')">
-   Genre Id:<input value="1" name="id" type="number" min="1"/><input type="submit" value="get"/>
-</form>
+<p>
+  Get Tickets info:
+  <form id="tsearch" onsubmit="openResults(); return false;">
+    <label for="zonas">Select ticket:</label>
+    <select name="expr" id="zonas">
+      <option value="Z2">Z2</option>
+      <option value="Z3">Z3</option>
+      <option value="Z4">Z4</option>
+      <option value="Z5">Z5</option>
+      <option value="Z6">Z6</option>
+    
+    </select>
+    <input type="submit" value="Search" />
+  </form>
+
+  <script>
+    function openResults() {
+      var selectedticket = document.getElementById('zonas').value;
+      window.open('/tickets/' + selectedticket, '_blank');
+    }
+  </script>
 </p>
 
-<h3>Staff</h3>
+<h3>Schedule</h3>
 <p>
-   <a href="/staff">List all</a>
+   <a href="/schedule">List all</a>
 </p>
 {% endblock %}

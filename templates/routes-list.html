@@ -9,6 +9,9 @@
     <th>
       <b>Color</b>
     </th>
+    <th>
+      <b>Schedule</b>
+    </th>
   </tr>
 
   {% for route in routes %}
@@ -18,7 +21,10 @@
     </td>
     <td>
       {{ route.Color }}
-    </td>    
+    </td>   
+    <td>
+      <a href="/schedule/{{ route.Name }}">{{ route.Name }} Schedule</a>
+    </td>
   </tr>
   {% endfor %}
 </table>

@@ -1,12 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Routes search</h1>
-<p><b>Search expression:</b>"{{ search.expr }}"</p>
-<p>
-<ul>
+<h1>Color search</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Route(s)</th>
+      <th>Color</th>
+    </tr>
+    
+</thead>
+<tbody>
   {% for route in routes %}
-  <li><a href="/routes/{{ route.nome }}">{{ route.nome }}</a></li>
-  {% endfor %}
-</ul>
-</p>
+  
+  <tr>
+    <td>
+      {{ route.Name }}
+    </td>
+    <td>{{route.Color}}</td>
+  </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
+
+

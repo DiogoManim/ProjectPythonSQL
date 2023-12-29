@@ -2,19 +2,29 @@
 {% block content %}
 <h1>Stops</h1>
 <table>
-  <thead>
     <tr>
-      <th>Stop Name</th>
+        <th>
+            <b>ID</b>
+        </th>
+        <th>
+            <b>Zone</b>
+        </th>
+        <th>
+            <b>Name</b>
+        </th>
     </tr>
-  </thead>
-  <tbody>
     {% for stop in stops %}
-      <tr>
+    <tr>
         <td>
-          <a href="/stops/{{ stop.Name }}">{{ stop.Name }}</a>
+            <a href="/stops/{{ stop.ID }}">{{ stop.ID }}</a>
         </td>
-      </tr>
+        <td>
+            {{ stop.Zone }}
+        </td>
+        <td>
+            {{ stop.Name }}
+        </td>
+    </tr>
     {% endfor %}
-  </tbody>
 </table>
 {% endblock %}

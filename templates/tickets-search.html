@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Search results</h1>
+<h3>Here you can consult the price of any possible trip with the chosen ticket as well as which zones you can travel to.</h3>
+{%for p in precos%}
+<p>
+<b>Price(€): {{p.Price}} </b>
+</p>
+<p>
+<b>Ticket: {{p.Ticket}} </b>
+</p>
+{%endfor%}
+<table>
+  <tr>
+      <th>
+        <b>Zona de Origem</b>
+      </th>
+      <th>
+        <b>Zona Destino</b>
+      </th>
+      
+  </tr>
+  {% for z in zonas %}
+  <tr>
+  
+      <td>
+        {{ z.zonaIdOrigem }}
+    </td>
+    <td>
+      {{ z.zonaIdDestino }}
+  </td>
+      
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
