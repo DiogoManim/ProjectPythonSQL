@@ -1,6 +1,6 @@
 import warnings
 warnings.filterwarnings('ignore', category=FutureWarning)
-from flask import abort, render_template, Flask, request, redirect, url_for
+from flask import abort, render_template, Flask
 import logging
 import db
 
@@ -128,24 +128,6 @@ ORDER BY Route;
     stations = db.execute(station, (ID,)).fetchall()
     if not paragens:
         abort(404)  # or handle it in another way, e.g., render an error template
-<<<<<<< Updated upstream
-    return render_template('stops-list.html', stops=stops)
-
-@APP.route('/search-stops/', methods=['POST'])
-def search_stops():
-    selected_zone = request.form['id']
-    # You can use the selected_zone to filter stops from the database
-    stops = db.execute(
-        '''
-        SELECT nomeDaParagem as Name
-        FROM Paragens
-        WHERE zonaId = ?
-        ORDER BY Name
-        ''', (selected_zone,)
-    ).fetchall()
-
-    return render_template('stops-list.html', stops=stops)
-=======
 
     return render_template('stops.html', ID=ID, paragens=paragens, stations = stations)
 
@@ -212,4 +194,3 @@ def search_by_Zone(zone):
 
 
 
->>>>>>> Stashed changes
