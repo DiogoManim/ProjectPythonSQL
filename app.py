@@ -84,12 +84,31 @@ def color_search(color):
         FROM Linhas
         WHERE cor = ?
     '''
+
+    paragens = '''
+        select nomeDaParagem as Name
+        from Paragens 
+        join Horarios on idParagem = paragemID
+        where Horarios.linhaID = 
+        (Select linhaID from Linhas where cor = ?);
+                
+    '''
+    count ='''
+        select Count(*) contador 
+        from Paragens 
+        join Horarios on idParagem = paragemID
+        where Horarios.linhaID = 
+        (Select linhaID from Linhas where cor = ?);
+        '''
+    
     routes = db.execute(query, (color,)).fetchall()
+    stations = db.execute(paragens,(color,)).fetchall()
+    contador = db.execute(count, (color,)).fetchall()
 
     if not routes:
         abort(404)  # or handle it in another way, e.g., render an error template
 
-    return render_template('routes-search.html', color=color, routes=routes)
+    return render_template('routes-search.html', color=color, routes=routes, stations= stations, contador=contador)
 
 
 #  Pagina das paragens
@@ -191,6 +210,39 @@ def search_by_Zone(zone):
     if not (zonas and precos) :
         abort(404)
     return render_template('tickets-search.html', precos=precos, zonas=zonas)
+
+
+@APP.route('/schedule/')
+def schedule():
+    query = '''
+    select  distinct Replace(linhaID, "Bexp", "Bx") as Route 
+    from Viagens
+    order by Route
+    '''
+    viagens = db.execute(query).fetchall()
+
+    if not (viagens) :
+        abort(404)
+    return render_template('schedule.html', viagens=viagens)
+
+@APP.route('/schedule-search/<Route>')
+def schedule_search(Route):
+    route_query= '''SELECT DISTINCT REPLACE(linhaID, 'Bexp', 'Bx') AS route
+                    FROM Viagens
+                    WHERE REPLACE(linhaID, 'Bexp', 'Bx') = ?
+                '''
+    query = '''
+            select horaDePartida as Departures
+            from Viagens
+            where replace(linhaID, "Bexp", "Bx") = ?
+            
+            '''
+    routes= db.execute(route_query, (Route,)).fetchall()
+    horas = db.execute(query, (Route,)).fetchall()
+    if not (horas) :
+        abort(404)
+    return render_template('schedule-search.html', routes=routes, horas=horas)
+
 
 
 

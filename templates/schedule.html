@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Schedule</h1>
+<table>
+  <tr>
+    <th>
+      <b>Route</b>
+    </th>
+  </tr>
+  {% for v in viagens %}
+  <tr>
+    <td>
+      <a href="/schedule-search/{{ v.Route }}">{{ v.Route }} Schedule</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

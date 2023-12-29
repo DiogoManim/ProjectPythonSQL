@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Schedule</h1>
+  <h4>Some important information:</h4>
+  <p>Note that this table represents the schedule of the beginning of the route.</p>
+  <table>
+    <tr>
+      <th>
+        <b>Route</b>
+      </th>
+      <th>
+        <b>Departure Time</b>
+      </th>
+    </tr>
+    {% for r in routes %}
+      <tr>
+        <td>
+          <a href="/route/{{ r.Route }}">{{ r.Route }}</a>
+        </td>
+        <td>
+          {% for h in horas %}
+             {{ h.Departures }} // 
+          {% endfor %}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

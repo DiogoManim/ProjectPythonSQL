@@ -7,8 +7,10 @@
 database. The application is built using 
 <a href="https://docs.python.org/3/library/sqlite3.html">sqlite3</a>,
 <a href="https://flask.palletsprojects.com">Flask</a>, and
-<a href="https://jinja.palletsprojects.com">Jinja</a>.
-</p>
+<a href="https://jinja.palletsprojects.com">Jinja</a>.</p>
+
+Developed by Diogo Manim and David Matos.
+
 
 <h2>Some database statistics</h2>
 <table>
@@ -20,10 +22,7 @@ database. The application is built using
   <td>Routes</td>
   <td>{{ stats.linhaID}}</td>
 </tr>
-<tr>
-  <td>Possible Trips</td>
-  <td>{{ stats.viagemID }}</td>
-</tr>
+
 
 <tr>
   <td>Zones</td>
@@ -45,7 +44,7 @@ database. The application is built using
 </p>
 <p>Get Route info:
 <form name="mid" action="javascript:window.open('/routes/'+document.forms['mid'].elements['id'].value,'_self')">
-   Nome:<select name="id">
+   Name:<select name="id">
     <option value="A">A</option>
     <option value="B">B</option>
     <option value="Bx">Bx</option>
@@ -66,7 +65,7 @@ database. The application is built using
       <option value="Red">Red</option>
       <option value="Green">Green</option>
       <option value="Yellow">Yellow</option>
-      <option value="Purle">Purple</option>
+      <option value="Purple">Purple</option>
       <option value="Orange">Orange</option>
     </select>
     <input type="submit" value="Search" />

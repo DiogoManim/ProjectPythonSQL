@@ -1,27 +1,41 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <h1>Color search</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Route(s)</th>
+      <th>Route</th>
       <th>Color</th>
     </tr>
-    
-</thead>
-<tbody>
-  {% for route in routes %}
-  
-  <tr>
-    <td>
-      {{ route.Name }}
-    </td>
-    <td>{{route.Color}}</td>
-  </tr>
+  </thead>
+  <tbody>
+    {% for route in routes %}
+      <tr>
+        <td>{{ route.Name }}</td>
+        <td>{{ route.Color }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% for i in contador %}
+  <p><b>Number of Stations: </b>{{ i.contador }}</p>
+{% endfor %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Station</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in stations %}
+      <tr>
+        <td>{{ s.Name }}</td>
+      </tr>
     {% endfor %}
   </tbody>
 </table>
 {% endblock %}
-
-
